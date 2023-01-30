@@ -71,8 +71,11 @@ void main() {
 		display(adjLists[i]);
 	printf("\nAdjacency Matrix is:\n");
 	for(i=0;i<v;i++) {
-		for(j=0;j<v;j++) 
+		for(j=0;j<v;j++) {
+			if (adjMat[i][j] == -1)
+				adjMat[i][j] = 0;
 			printf("%d ", adjMat[i][j]);
+		}
 		printf("\n");
 	}
 }
