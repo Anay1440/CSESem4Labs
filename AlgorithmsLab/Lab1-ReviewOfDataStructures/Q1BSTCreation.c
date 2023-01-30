@@ -30,7 +30,7 @@ void insertBST(Node **tree,int x) {
         if (iter->val > x)
             iter = iter->left;
         else if (iter->val == x) {
-        	printf("Key found");
+        	printf("Key found\n");
         	return;
         }
         else
@@ -81,10 +81,10 @@ void main() {
 		insertBST(&root,x);
 	}
 	while(x != -1);
-	printf("\nPreOrder");
+	printf("\nPreOrder: ");
 	preOrder(root);
-	printf("\nInOrder");
+	printf("\nInOrder: ");
 	inOrder(root);
-	printf("\nPostOrder");
+	printf("\nPostOrder: ");
 	postOrder(root);
 }

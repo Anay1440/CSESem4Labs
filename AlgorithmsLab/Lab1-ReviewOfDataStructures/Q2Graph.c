@@ -35,6 +35,7 @@ void main() {
 		adjMat[i] = (int *) calloc(v,sizeof(int));
 		adjLists[i] = (Node *) malloc(sizeof(Node));
 		adjLists[i]->val = i+1;
+		adjLists[i]->next = NULL;
 	}
 
 	for(i=0;i<v;i++) {
