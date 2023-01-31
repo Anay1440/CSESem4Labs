@@ -1,0 +1,46 @@
+## 1. Create a table employee with ( emp_no, emp_name, emp_address) ##
+
+CREATE TABLE employee(
+emp_no NUMERIC(5),
+emp_name VARCHAR(20),
+emp_address VARCHAR(50));
+
+## 2. Insert five employees information ##
+
+INSERT INTO employee VALUES (1,'Emp1','UDUPI');
+INSERT INTO employee VALUES (2,'Emp2','MANIPAL');
+INSERT INTO employee VALUES (3,'Emp3','MANGALORE');
+INSERT INTO employee VALUES (4,'Emp4','Add4');
+INSERT INTO employee VALUES (5,'Emp5','MANIPAL');
+
+## 3. Display names of all employees ##
+
+SELECT emp_name FROM employee;
+
+## 4. Display all the employees from ‘MANIPAL’ ##
+
+SELECT * FROM employee WHERE emp_address='MANIPAL';
+
+## 5. Add a column named salary to employee table ##
+
+ALTER TABLE employee ADD(salary numeric(8));
+
+## 6. Assign the salary for all employees ##
+
+UPDATE employee SET salary=80000;
+
+## 7. View the structure of the table employee using describe ##
+
+DESC employee;
+
+## 8. Delete all the employees from ‘MANGALORE’ ##
+
+DELETE FROM employee WHERE emp_address='MANGALORE';
+
+## 9. Rename employee as employee1 ##
+
+ALTER TABLE employee RENAME TO employee1;
+
+## 10. Drop the table employee1 ##
+
+DROP TABLE employee1;
