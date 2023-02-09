@@ -22,6 +22,7 @@ void main() {
         if ((x % i == 0) && (y % i == 0)) {
             if (isPrime(i,&opCount)) {
                 x = x / i;
+                y = y / i;
                 gcd *= i;
                 i--;
             }
