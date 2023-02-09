@@ -1,0 +1,24 @@
+-- 9. List all Students with names and their department names. -- 
+
+SELECT name,dept_name FROM student;
+
+-- 10. List all instructors in CSE department. -- 
+
+SELECT * FROM instructor WHERE dept_name = 'Comp. Sci.';
+
+-- 11. Find the names of courses in CSE department which have 3 credits. -- 
+
+SELECT * FROM course WHERE dept_name = 'Comp. Sci.' AND credits = 3;
+
+/* 12. For the student with ID 12345 (or any other value), show all course-id and title of all
+courses registered for by the student. */
+
+SELECT course_id,title FROM course WHERE course_id IN (SELECT course_id FROM takes WHERE ID = 12345);
+
+-- 13. List all the instructors whose salary is in between 40000 and 90000. -- 
+
+SELECT * FROM instructor WHERE salary > 40000 AND salary < 90000;
+
+-- 14. Display the IDs of all instructors who have never taught a course. -- 
+
+SELECT ID FROM instructor WHERE ID NOT IN (SELECT ID FROM teaches);

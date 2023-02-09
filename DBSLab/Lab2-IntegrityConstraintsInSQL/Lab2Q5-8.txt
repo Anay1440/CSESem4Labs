@@ -1,0 +1,25 @@
+-- 5 Try to insert few tuples into Employee and Department which violates some of the above constraints. -- 
+-- (Should produce errors) --
+
+INSERT INTO EDepartment VALUES (3,'HR');
+INSERT INTO Employee VALUES (5,'Emp5','M',60000,'Manipal',4);
+INSERT INTO Employee VALUES (NULL,'Emp3','M',60000,'Manipal',2);
+INSERT INTO Employee VALUES (5,'Emp5','H',60000,'Manipal',2);
+
+-- 6 Try to modify/delete a tuple which violates a constraint. -- 
+
+-- DELETE FROM EDepartment WHERE DeptNo IN (SELECT DNo FROM Employee GROUP BY DNo HAVING COUNT(*) > 1);--
+
+DELETE FROM EDepartment WHERE DeptNo = 1;
+
+/* 7. Modify the foreign key constraint of Employee table such that whenever a department
+tuple is deleted, the employees belonging to that department will also be deleted. */
+
+ALTER TABLE Employee DROP CONSTRAINT FK_DNo;
+ALTER TABLE Employee ADD CONSTRAINT FK_DNo FOREIGN KEY(DNo) REFERENCES EDepartment(DeptNo) ON DELETE CASCADE;
+
+/* 8 Create a constraint to set the default salary to 10000 and test the constraint by
+ inserting a new record. */
+
+ALTER TABLE Employee MODIFY(SALARY DEFAULT 10000);
+INSERT INTO Employee VALUES (5,'Emp5','M',DEFAULT,'Manipal',2);

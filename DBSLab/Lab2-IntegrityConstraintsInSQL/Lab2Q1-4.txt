@@ -1,0 +1,31 @@
+-- 1. Create Employee table. --
+
+CREATE TABLE Employee(
+EmpNo NUMERIC(5) PRIMARY KEY,
+EmpName VARCHAR(20) NOT NULL,
+Gender CHARACTER(1) NOT NULL CHECK (GENDER = 'M' OR GENDER = 'F'),
+Salary NUMERIC(8) NOT NULL,
+Address VARCHAR(20) NOT NULL,
+DNo NUMERIC(5));
+
+-- 2. Create Department table. --
+
+CREATE TABLE EDepartment(
+DeptNo NUMERIC(5) PRIMARY KEY,
+DeptName VARCHAR(20) UNIQUE);
+
+-- 3 Make DNo of Employee as foreign key which refers to DeptNo of Department. --
+
+ALTER TABLE Employee ADD CONSTRAINT FK_DNo FOREIGN KEY(DNo) REFERENCES EDepartment(DeptNo);
+
+-- 4 Insert few tuples into Employee and Department which satisfies the above constraints. --
+
+INSERT INTO EDepartment VALUES (1,'DEV');
+INSERT INTO EDepartment VALUES (2,'OPS');
+INSERT INTO EDepartment VALUES (3,'CustomerService');
+
+INSERT INTO Employee VALUES (1,'Emp1','M',80000,'Manipal',1);
+INSERT INTO Employee VALUES (2,'Emp2','M',30000,'Manipal',3);
+INSERT INTO Employee VALUES (3,'Emp3','M',60000,'Manipal',2);
+INSERT INTO Employee VALUES (4,'Emp4','F',90000,'Manipal',1);
+

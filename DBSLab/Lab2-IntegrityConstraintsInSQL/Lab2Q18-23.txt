@@ -1,0 +1,23 @@
+-- 18. Find the names of all instructors whose department name includes the substring ‘ic’. --
+
+SELECT name FROM instructor WHERE dept_name LIKE '%ic%';
+
+-- 19. List the student names along with the length of the student names. --
+
+SELECT name, LENGTH(name) AS length FROM student;
+
+-- 20. List the department names and 3 characters from 3rd position of each department name --
+
+SELECT dept_name, SUBSTR(dept_name,3,3) AS SUBSTRING FROM department;
+
+-- 21. List the instructor names in upper case. --
+
+SELECT UPPER(name) FROM instructor;
+
+-- 22. Replace NULL with value1(say 0) for a column in any of the table --
+
+SELECT ID, NVL(grade,'No-grade') FROM takes WHERE year=2010;
+
+-- 23. Display the salary and salary/3 rounded to nearest hundred from Instructor. --
+
+SELECT salary, ROUND(salary/3,-2) AS salaryby3 FROM instructor;
