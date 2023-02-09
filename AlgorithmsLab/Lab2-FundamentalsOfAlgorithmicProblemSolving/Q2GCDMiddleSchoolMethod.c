@@ -1,43 +1,33 @@
 #include <stdio.h>
 #include <math.h>
 
-void getPrimeFactors(int n, int pf[50]) {
-    int ind = 0, i;
-    while (n % 2 == 0) {
-        pf[ind++] = 2;
-        n = n / 2;
+int isPrime(int n, int * opCount) {
+    int i, count = 0;
+    for(i=2; i < sqrt(n); i++) {
+        *opCount += 1;
+        if (n % i == 0) 
+            return 0;
     }
-
-    for (i=3; i <= sqrt(n); i = i + 2) {
-        while (n % i == 0) {
-            pf[ind++] = i;
-            n = n / i;
-        }
-    }
-
-    if (n > 2)
-        pf[ind++] = n;
+    return 1;
 }
 
 void main() {
-    int n1, n2, x, i, gcd = 1, ind1 = 0, ind2 = 0;
-    printf("Enter first number ");
-    scanf("%d",&n1);
-    printf("Enter second number ");
-    scanf("%d",&n2);
-    int pf1[50], pf2[50];
-    getPrimeFactors(n1, pf1);
-    getPrimeFactors(n2, pf2);
-    while (pf1[ind1] != 0 && pf2[ind2] != 0) {
-        if (pf1[ind1] == pf2[ind2]) {
-            gcd = gcd * pf1[ind1];
-            ind1++;
-            ind2++;
+    int gcd = 1, n1, n2, i = 2, x, y, opCount = 0;
+    printf("Enter the 2 numbers ");
+    scanf("%d %d",&n1,&n2);
+    x = n1 < n2 ? n1 : n2;
+    y = n1 > n2 ? n1 : n2;
+    do {
+        opCount++;
+        if ((x % i == 0) && (y % i == 0)) {
+            if (isPrime(i,&opCount)) {
+                x = x / i;
+                gcd *= i;
+                i--;
+            }
         }
-        else if (pf1[ind1] < pf2[ind2])
-            ind1++;
-        else
-            ind2++;
+        i++;
     }
-    printf("GCD of %d and %d is %d", n1, n2, gcd);
+    while (i <= x);
+    printf("The GCD of %d and %d is : %d\nOpCount is %d\n", n1, n2, gcd, opCount );
 }
