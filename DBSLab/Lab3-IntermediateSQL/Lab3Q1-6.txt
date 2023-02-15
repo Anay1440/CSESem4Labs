@@ -1,0 +1,40 @@
+-- 1. Find courses that ran in Fall 2009 or in Spring 2010 --
+
+SELECT course_id FROM section WHERE semester = 'Fall' AND year = 2009
+UNION
+SELECT course_id FROM section WHERE semester = 'Spring' AND year = 2010;
+
+-- 2. Find courses that ran in Fall 2009 and in spring 2010 --
+
+SELECT course_id FROM section WHERE semester = 'Fall' AND year = 2009
+INTERSECT
+SELECT course_id FROM section WHERE semester = 'Spring' AND year = 2010;
+
+-- 3. Find courses that ran in Fall 2009 but not in Spring 2010 --
+
+SELECT course_id FROM section WHERE semester = 'Fall' AND year = 2009
+MINUS
+SELECT course_id FROM section WHERE semester = 'Spring' AND year = 2010;
+
+-- 4. Find the name of the course for which none of the students registered. --
+
+/*
+SELECT title FROM course WHERE course_id NOT IN (SELECT
+course_id FROM takes); */
+
+SELECT title FROM course
+MINUS
+SELECT c.title FROM course c, takes t WHERE t.course_id = c.course_id; 
+
+-- 5. Find courses offered in Fall 2009 and in Spring 2010. --
+
+SELECT course_id, title FROM course WHERE course_id 
+IN (SELECT course_id FROM section WHERE semester = 'Fall'
+AND year = 2009) AND course_id IN (SELECT course_id 
+FROM section WHERE semester = 'Spring' AND year = 2010);
+
+-- 6. Find the total number of students who have taken
+course taught by the instructor with ID 10101. --
+
+SELECT COUNT(ID) FROM takes WHERE course_id IN 
+(SELECT course_id FROM teaches WHERE ID = 10101);

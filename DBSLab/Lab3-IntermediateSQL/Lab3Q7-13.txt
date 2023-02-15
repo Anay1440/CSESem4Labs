@@ -1,0 +1,41 @@
+-- 7. Find courses offered in Fall 2009 but not in Spring 2010. --
+
+SELECT course_id, title FROM course WHERE course_id 
+IN (SELECT course_id FROM section WHERE semester = 'Fall'
+ AND year = 2009) AND course_id NOT IN 
+(SELECT course_id FROM section WHERE semester = 'Spring' AND year = 2010);
+
+-- 8. Find the names of all students whose name is same as the instructor’s name. --
+
+SELECT name FROM student WHERE name IN (SELECT name FROM instructor); 
+
+-- 9. Find names of instructors with salary greater than
+ that of some (at least one) instructor in the Biology 
+department. --
+
+SELECT name FROM instructor WHERE salary > 
+SOME(SELECT salary FROM instructor WHERE dept_name = 'Biology');
+
+-- 10. Find the names of all instructors whose salary is 
+greater than the salary of all instructors in the Biology
+department. --
+
+SELECT name FROM instructor WHERE salary > 
+ALL(SELECT salary FROM instructor WHERE dept_name = 'Biology');
+
+-- 11. Find the departments that have the highest average salary. --
+
+SELECT * FROM (SELECT dept_name, AVG(salary) FROM instructor 
+GROUP BY dept_name ORDER BY AVG(salary) DESC) WHERE ROWNUM = 1;
+
+-- 12. Find the names of those departments whose budget is lesser than the average salary of all instructors. --
+
+SELECT dept_name FROM department WHERE budget < ALL(SELECT AVG(salary) FROM instructor);
+
+-- 13. Find all courses taught in both the Fall 2009 semester and in the Spring 2010 semester. --
+
+SELECT course_id, title FROM course WHERE EXISTS (SELECT course_id FROM section 
+WHERE semester = 'Fall'  AND year = 2009 AND course.course_id = section.course_id)
+INTERSECT
+SELECT course_id, title FROM course WHERE EXISTS (SELECT course_id FROM section 
+WHERE semester = 'Spring' AND year = 2010 AND course.course_id = section.course_id);
