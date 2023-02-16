@@ -9,10 +9,12 @@ void main() {
     printf("Enter string 2 ");
     scanf("%s",s2);
     for (i=0; i < strlen(s1); i++)
-        if (s1[i] != s2[i]) 
+        if (s1[i] != s2[i]) {
             flag = 0;
+            break;
+        }
     if (flag)
-        printf("Strings are equal");
+        printf("Strings are equal. Count : %d",i);
     else
-        printf("Strings are not equal");
+        printf("Strings are not equal. Count : %d",i);
 }
