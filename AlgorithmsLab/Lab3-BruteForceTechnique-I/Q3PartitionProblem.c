@@ -15,10 +15,9 @@ void getNCR(int arr[], int data[], int start, int end, int ind, int r, int halfS
         return;
 
     if (ind == r) {
-        int sum = 0, count = 0;
-        for (i = 0; i < r; i++) {
+        int sum = 0;
+        for (i = 0; i < r; i++)
             sum += data[i];
-        }
         if (sum == halfSum) {
             printf("Set 1: ");
             for (i = 0; i < r; i++)
@@ -28,14 +27,15 @@ void getNCR(int arr[], int data[], int start, int end, int ind, int r, int halfS
                 if (!find(data, r, arr[i])) 
                     printf("%d ", arr[i]);
             }
+            printf("\n");
             *completed = 1;
         }
-        return;
     }
-
-    for (i = start; i <= end && end - i + 1 >= r - ind; i++) {
-        data[ind] = arr[i];
-        getNCR(arr, data, i+1, end, ind+1, r, halfSum, completed);
+    else {
+        for (i = start; i <= end && end - i + 1 >= r - ind; i++) {
+            data[ind] = arr[i];
+            getNCR(arr, data, i+1, end, ind+1, r, halfSum, completed);
+        }
     }
 }
 
@@ -52,13 +52,13 @@ void main() {
         sum += arr[i];
     }
     if (sum % 2 != 0)
-        printf("Not possible.");
+        printf("Not possible.\n");
     else {
         int completed = 0;
         for (i = 1; i <= r; i++) {
             getNCR(arr, data, 0, n - 1, 0, i, sum/2, &completed);
         }
         if (!completed)
-            printf("Not possible.");
+            printf("Not possible.\n");
     }
 }
