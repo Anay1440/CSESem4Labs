@@ -11,9 +11,8 @@ typedef struct node {
     struct node * next;
 } Node ;
 
-
 typedef struct {
-    Node * nodes[100];
+    GraphNode nodes[100];
     int tos;
 } Stack;
 
@@ -22,6 +21,11 @@ typedef struct {
     Node ** adjLists;
     GraphNode * nodes;
 } Graph ;
+
+typedef struct {
+    GraphNode * nodes;
+    int front,rear;
+} Queue;
 
 void insertEnd(Node **, GraphNode );
 Graph createGraph(int);

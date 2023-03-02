@@ -11,19 +11,18 @@ void permute(int arr[], int n, double * mat[], int l, int r, double *cost, int r
     int i;
     if (l == r) {
         double tempCost = 0;
-        for (i = 0; i < n ; i++) {
-            *opCount++;
+        for (i = 0; i < n ; i++) 
             tempCost += mat[i][arr[i]];
-        } 
+        *opCount = *opCount + n + 1;
         if (*cost > tempCost) {
             *cost = tempCost;
             for(i=0;i<n;i++) 
                 res[i] = arr[i];
+            *opCount = *opCount + n;
         }
     }
     else {
         for (i = l; i <= r ; i++) {
-            *opCount+=2;
             swap(&arr[l],&arr[i]);
             permute(arr,n,mat,l+1,r,cost,res,opCount);
             swap(&arr[l],&arr[i]);
