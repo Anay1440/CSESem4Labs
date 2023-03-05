@@ -1,0 +1,85 @@
+-- 1. Find the number of students in each course. --
+
+SELECT course_id, COUNT(ID) FROM takes GROUP BY course_id;
+
+-- 2. Find those departments where the number of students are greater than 2. --
+
+SELECT dept_name, COUNT(ID) count FROM student GROUP BY dept_name HAVING COUNT(ID) > 2;
+
+-- 3. Find the total number of courses in each department. --
+
+SELECT dept_name, COUNT(course_id) count FROM course GROUP BY dept_name;
+
+/* 4. Find the names and average salaries of all departments whose 
+average salary is greater than 42000. */
+
+SELECT dept_name, AVG(salary) FROM instructor GROUP BY dept_name HAVING AVG(salary) > 42000;
+
+-- 5. Find the enrolment of each section that was offered in Spring 2009. --
+
+SELECT sec_id, course_id, COUNT(ID) FROM takes WHERE year = 2009 AND semester = 'Spring' GROUP BY sec_id,course_id;
+
+-- 6. List all the courses with prerequisite courses, then display course id in increasing order. --
+
+SELECT course_id, title FROM course WHERE course_id IN (SELECT course_id FROM prereq) ORDER BY(course_id) ASC;
+
+-- 7. Display the details of instructors sorting the salary in decreasing order. --
+
+SELECT * FROM instructor ORDER BY(salary) DESC;
+
+-- 8. Find the maximum total salary across the departments. --
+
+SELECT MAX(s) FROM (SELECT SUM(salary) s FROM instructor GROUP BY dept_name);
+
+-- 9. Find the average instructors’ salaries of those departments where the average salary is greater than 42000. --
+
+SELECT dept_name, avgsalary FROM (SELECT dept_name, AVG(salary) avgsalary FROM instructor 
+GROUP BY dept_name) WHERE avgsalary > 42000;
+
+-- 10. Find the sections that had the maximum enrolment in Spring 2010. --
+
+SELECT sec_id, course_id, COUNT(ID) FROM takes WHERE year = 2010 AND semester = 'Spring'
+GROUP BY sec_id,course_id HAVING COUNT(ID) = 
+(SELECT MAX(c) FROM (SELECT sec_id, COUNT(ID) c FROM takes 
+WHERE year = 2010 AND semester = 'Spring' GROUP BY sec_id,course_id));
+
+-- 11. Find the names of all instructors who teach all students that belong to ‘CSE’ department. --
+
+SELECT name FROM instructor WHERE ID IN (
+SELECT ID FROM teaches WHERE course_id IN (
+SELECT course_id FROM takes WHERE ID IN 
+(SELECT ID FROM student WHERE dept_name = 'Comp. Sci.') 
+GROUP BY course_id HAVING 
+COUNT(ID) = (SELECT COUNT(ID) FROM student WHERE dept_name = 'Comp. Sci.')));
+
+/* 12. Find the average salary of those department where the average salary is greater than 
+50000 and total number of instructors in the department are more than 2. */
+
+SELECT dept_name, AVG(salary) FROM instructor 
+GROUP BY dept_name HAVING AVG(salary) > 50000 AND COUNT(ID) > 2;
+
+-- 13. Find all departments with the maximum budget. --
+
+WITH m(budget) AS (SELECT MAX(budget) FROM department)
+SELECT d.dept_name, d.budget FROM department d,m WHERE d.budget = m.budget;
+
+/* 14. Find all departments where the total salary is greater than the average of 
+the total salary at all departments. */
+
+WITH totavg(sal) AS (SELECT AVG(salary) FROM 
+(SELECT SUM(salary) salary FROM instructor GROUP BY dept_name))
+SELECT dept_name, SUM(salary) totalsalary FROM instructor GROUP BY dept_name
+HAVING SUM(salary) > (SELECT sal FROM totavg);
+
+-- 15. Find the sections that had the maximum enrolment in Fall 2009 --
+
+WITH sec(maxenr) AS (SELECT MAX(c) FROM (SELECT sec_id, COUNT(ID) c FROM takes 
+WHERE year = 2009 AND semester = 'Fall' GROUP BY sec_id, course_id))
+SELECT sec_id, course_id, COUNT(ID) FROM takes WHERE year = 2009 AND semester = 'Fall'
+GROUP BY sec_id, course_id HAVING COUNT(ID) = (SELECT maxenr FROM sec);
+
+/* 16. Select the names of those departments where the total credits earned by all the students 
+is greater than the total credits earned by all the students in the Finance Department */
+
+WITH finance(totcred) AS (SELECT SUM(tot_cred) FROM student WHERE dept_name = 'Finance')
+SELECT dept_name FROM student GROUP BY dept_name HAVING SUM(tot_cred) > (SELECT totcred FROM finance);
