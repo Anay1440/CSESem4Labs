@@ -7,14 +7,13 @@ drop table teaches;
 drop table section;
 drop table instructor;
 drop table course;
-drop table department;
 drop table classroom;
 drop table dependent;
 drop table works_on;
 drop table project;
 drop table dept_locations;
+drop table department;
 drop table employee;
-drop table dept_locations;
 
 
 -- It creates a table named EMPLOYEE

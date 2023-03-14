@@ -265,7 +265,7 @@ BEGIN
         INTO G
         FROM StudentTable
         WHERE RollNo = I;
-        IF G < 0 AND G > 10 THEN
+        IF G < 0 OR G > 10 THEN
             RAISE OutOfRange;
         END IF;
         EXCEPTION 
