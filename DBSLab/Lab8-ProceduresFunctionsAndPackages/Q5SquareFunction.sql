@@ -1,0 +1,11 @@
+CREATE OR REPLACE FUNCTION square(n INTEGER)
+RETURN INTEGER AS
+BEGIN
+    RETURN n * n;
+END;
+/
+
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(square('&number'));
+END;
+/
