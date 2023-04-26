@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int warshall(int ** mat, int n, int c) {
+int warshall(int ** mat, int n, int c, int * opCount) {
     int i,j,flag;
 
     if (c == n) {
         for(i = 0; i < n; i++) {
             flag = 1;
             for(j = 0; j < n; j++) {
+                (*opCount)++;
                 if (mat[i][j] == 0)
                     flag = 0;
             }
@@ -24,18 +25,19 @@ int warshall(int ** mat, int n, int c) {
     
     for(i = 0; i < n; i++) {
         for(j = 0; j < n; j++) {
+            (*opCount)++;
             if ((mat[i][j] == 1) || (mat[i][c] == 1 && mat[c][j] == 1))
                 r[i][j] = 1;
         }
     }
 
-    return warshall(r,n,c+1);
+    return warshall(r, n, c+1, opCount);
 
 }
 
 void main() {
 
-    int i, j, n;
+    int i, j, n, opCount = 0;
     printf("Enter number of vertices ");
     scanf("%d",&n);
 
@@ -51,9 +53,9 @@ void main() {
         }
     }
 
-    if (warshall(adjMat,n,0) == 1) 
-        printf("The matrix exhibits transitive closure.\n");
+    if (warshall(adjMat,n,0, &opCount) == 1) 
+        printf("The matrix exhibits transitive closure.\nOpcount: %d\n",opCount);
     else
-        printf("The matrix does not exhibit transitive closure.\n");
+        printf("The matrix does not exhibit transitive closure.\nOpcount: %d\n",opCount);
 
 }
